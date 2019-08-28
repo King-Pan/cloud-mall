@@ -1,5 +1,6 @@
 package cn.druglots.mall.web;
 
+import cn.druglots.mall.core.rst.ResultGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,7 @@ public class MallWebApplicationTests {
 
     @Test
     public void contextLoads() {
+        ResultGenerator.genSuccessResult();
     }
 
 }
