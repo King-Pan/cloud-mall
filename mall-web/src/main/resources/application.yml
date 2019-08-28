@@ -10,3 +10,10 @@ server:
   servlet:
     context-path: /mall
 debug: true
+mybatis-plus:
+  mapper-locations: classpath*:/mappers/**/.Mapper.xml
+  type-aliases-package: cn.druglots.mall.**.entity
+  global-config:
+    db-config:
+      insert-strategy: ignored
+      update-strategy: not_empty
