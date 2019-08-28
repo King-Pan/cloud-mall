@@ -20,6 +20,9 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final String JSON_TYPE = "application/json";
+    private static final String XML_REQUEST = "XMLHttpRequest";
+
     /**
      * json格式异常处理
      *
@@ -50,16 +53,16 @@ public class GlobalExceptionHandler {
         String acceptHeader = request.getHeader("Accept");
         String xRequestedWith = request.getHeader("X-Requested-With");
         boolean containsFlag = false;
-        if(StringUtils.isNotBlank(contentTypeHeader)){
-            containsFlag = contentTypeHeader.contains("application/json");
+        if (StringUtils.isNotBlank(contentTypeHeader)) {
+            containsFlag = contentTypeHeader.contains(JSON_TYPE);
         }
-        boolean xmlRequestFlag = "XMLHttpRequest".equalsIgnoreCase(xRequestedWith);
-        if (contentTypeHeader != null && containsFlag) {
+        if (containsFlag) {
             return getErrorResult(request, e);
         }
-        if (acceptHeader != null && acceptHeader.contains("application/json")) {
+        if (acceptHeader != null && containsFlag) {
             return getErrorResult(request, e);
         }
+        boolean xmlRequestFlag = XML_REQUEST.equalsIgnoreCase(xRequestedWith);
         if (xmlRequestFlag) {
             return getErrorResult(request, e);
         }

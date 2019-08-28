@@ -11,6 +11,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+/**
+ * @author king-pan
+ */
 @EnableWebMvc
 @SpringBootApplication
 @EnableTransactionManagement
