@@ -8,12 +8,14 @@ spring:
 server:
   port: 9100
   servlet:
-    context-path: /mall
+    context-path: /cloud-mall
 debug: true
 mybatis-plus:
-  mapper-locations: classpath*:/mappers/**/.Mapper.xml
+  mapper-locations: classpath*:/mappers/**/*Mapper.xml
   type-aliases-package: cn.druglots.mall.**.entity
   global-config:
     db-config:
       insert-strategy: ignored
       update-strategy: not_empty
+  check-config-location: true
+  executor-type: simple
