@@ -35,6 +35,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> result = new HashMap<>(3);
         result.put("code", 100);
         result.put("msg", e.getMessage());
+        e.printStackTrace();
         result.put("url", request.getRequestURL());
         return result;
     }
