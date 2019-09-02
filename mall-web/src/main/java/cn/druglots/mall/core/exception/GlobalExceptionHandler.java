@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Object jsonErrorHandler(Exception e, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>(3);
-        result.put("code", 100);
+        result.put("code", 500);
         result.put("msg", e.getMessage());
         e.printStackTrace();
         result.put("url", request.getRequestURL());
