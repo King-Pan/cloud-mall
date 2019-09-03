@@ -2,6 +2,7 @@ package cn.druglots.mall.sys.config.propretise;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * @BelongsProject: cloud-mall
@@ -11,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @Description: redis配置信息
  */
 @Data
+@Component
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
     private String host;
