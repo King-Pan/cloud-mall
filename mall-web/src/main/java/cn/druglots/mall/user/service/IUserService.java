@@ -22,4 +22,19 @@ public interface IUserService extends IService<User> {
      * @return
      */
     IPage<User> getPageList(UserVo userVo, Page<User> page);
+
+
+    /**
+     * 通过用户名查找用户信息
+     * @param userName
+     * @return
+     */
+    User findByUserName(String userName);
+
+    /**
+     * 通过手机号查找用户
+     * @param phoneNum 用户手机号
+     * @return User用户信息
+     */
+    User findByPhoneNum(String phoneNum);
 }

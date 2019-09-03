@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.druglots.mall.user.mapper.PermissionMapper">
-
+    <select id="findListByRoleId" parameterType="java.lang.Long" resultType="Permission">
+SELECT r.*FROM permission p,role_permission rp WHERE p.id=rp.role_id and rp.role_id=#{roleId}
+    </select>
 </mapper>

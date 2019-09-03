@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.druglots.mall.user.mapper.RoleMapper">
 
+
+    <select id="findRoleByUserId" parameterType="java.lang.Long" resultType="Role">
+        SELECT r.*FROM role r,user_role ur WHERE r.id=ur.role_id and ur.user_id=#{userId}
+    </select>
+
 </mapper>
