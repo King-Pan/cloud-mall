@@ -71,6 +71,7 @@ public class ShiroConfig {
 //        // 表示需要认证才可以访问
 //        filterChainDefinitionMap.put("/**", "authc");
         filterChainDefinitionMap.put("/unauthorized", "anon");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
