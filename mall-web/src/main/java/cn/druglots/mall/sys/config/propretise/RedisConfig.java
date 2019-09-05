@@ -15,9 +15,24 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
+
+    /**
+     * ip
+     */
     private String host;
 
+    /**
+     * 端口
+     */
     private int port;
 
+    /**
+     * redis密码
+     */
     private String password;
+
+    /**
+     * 过期时间
+     */
+    private int timeOut = 1800;
 }

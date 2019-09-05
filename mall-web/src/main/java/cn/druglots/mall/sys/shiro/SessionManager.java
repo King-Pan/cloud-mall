@@ -1,6 +1,5 @@
 package cn.druglots.mall.sys.shiro;
 
-import static cn.druglots.mall.common.Constanst.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -24,6 +23,13 @@ import java.io.Serializable;
  */
 public class SessionManager extends DefaultWebSessionManager {
 
+
+    private static final String AUTHORIZATION = "Token";
+
+    private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
+
+    public SessionManager() {
+    }
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {

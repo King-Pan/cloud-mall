@@ -1,11 +1,15 @@
 package cn.druglots.mall.core.exception;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +27,23 @@ public class GlobalExceptionHandler {
     private static final String JSON_TYPE = "application/json";
     private static final String XML_REQUEST = "XMLHttpRequest";
 
+
+    public ModelAndView resolveException(HttpServletRequest request,
+                                         HttpServletResponse response, Object handler, Exception ex) {
+        // TODO Auto-generated method stub
+        System.out.println("==============异常开始=============");
+        //如果是shiro无权操作，因为shiro 在操作auno等一部分不进行转发至无权限url
+        if(ex instanceof UnauthorizedException){
+            ModelAndView mv = new ModelAndView("manage/unauth/index");
+            return mv;
+        }
+        ex.printStackTrace();
+        System.out.println("==============异常结束=============");
+        ModelAndView mv = new ModelAndView("error");
+        mv.addObject("exception", ex.toString().replaceAll("\n", "<br/>"));
+        return mv;
+    }
+
     /**
      * json格式异常处理
      *
@@ -32,12 +53,30 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public Object jsonErrorHandler(Exception e, HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<>(3);
-        result.put("code", 500);
-        result.put("msg", e.getMessage());
-        e.printStackTrace();
-        result.put("url", request.getRequestURL());
-        return result;
+        //使用HttpServletRequest中的header检测请求是否为ajax, 如果是ajax则返回json, 如果为非ajax则返回view(即ModelAndView)
+        String contentTypeHeader = request.getHeader("Content-Type");
+        String acceptHeader = request.getHeader("Accept");
+        String xRequestedWith = request.getHeader("X-Requested-With");
+        boolean containsFlag = false;
+        if (StringUtils.isNotBlank(contentTypeHeader)) {
+            containsFlag = contentTypeHeader.contains(JSON_TYPE);
+        }
+        if (acceptHeader != null && containsFlag) {
+            return getErrorResult(request, e);
+        }
+        if (containsFlag) {
+            return getErrorResult(request, e);
+        }
+        boolean xmlRequestFlag = XML_REQUEST.equalsIgnoreCase(xRequestedWith);
+        if (xmlRequestFlag) {
+            return getErrorResult(request, e);
+        }
+        ModelAndView view = new ModelAndView("global_error");
+        view.addObject("code", 500);
+        view.addObject("msg", e.getMessage());
+        view.addObject("url", request.getRequestURL());
+        view.addObject("stackTrace", e.getStackTrace());
+        return view;
     }
 
     /**
@@ -67,7 +106,7 @@ public class GlobalExceptionHandler {
         if (xmlRequestFlag) {
             return getErrorResult(request, e);
         }
-        ModelAndView view = new ModelAndView("error");
+        ModelAndView view = new ModelAndView("global_error");
         view.addObject("code", e.getCode());
         view.addObject("msg", e.getMsg());
         view.addObject("url", request.getRequestURL());
@@ -83,6 +122,14 @@ public class GlobalExceptionHandler {
         return result;
     }
 
+    private Map<String, Object> getErrorResult(HttpServletRequest request, Exception e) {
+        Map<String, Object> result = new HashMap<>(3);
+        result.put("code", 500);
+        result.put("msg", e.getMessage());
+        result.put("url", request.getRequestURL());
+        return result;
+    }
+
     /**
      * 判断请求是否是ajax请求
      *
@@ -93,5 +140,17 @@ public class GlobalExceptionHandler {
         return (httpRequest.getHeader("X-Requested-With") != null
                 && "XMLHttpRequest"
                 .equals(httpRequest.getHeader("X-Requested-With").toString()));
+    }
+
+
+    @ResponseBody
+    @ExceptionHandler(UnauthorizedException.class)
+    public String handleShiroException(Exception ex) {
+        return "无权限";
+    }
+    @ResponseBody
+    @ExceptionHandler(AuthorizationException.class)
+    public String AuthorizationException(Exception ex) {
+        return "权限认证失败";
     }
 }

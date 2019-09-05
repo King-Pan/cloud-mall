@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @BelongsProject: cloud-mall
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description: mybatis-plus配置类
  */
 @Configuration
+@EnableTransactionManagement
 @MapperScan(value = "cn.druglots.mall.**.mapper")
 public class MybatisPlusConfig {
 

@@ -1,11 +1,10 @@
 package cn.druglots.mall.sys.shiro.realm;
 
-import cn.druglots.mall.common.Result;
-import cn.druglots.mall.common.ResultStatusCode;
-import cn.druglots.mall.core.exception.BusinessException;
 import cn.druglots.mall.user.entity.User;
 import com.alibaba.fastjson.JSON;
+import lombok.Data;
 import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -31,27 +30,16 @@ import java.util.Map;
  * @CreateTime: 2019-09-04 00:37
  * @Description: 控制登录人数过滤器
  */
+@Data
 public class SessionControlFilter extends AccessControlFilter {
-    /**
-     * 踢出后到的地址
-     */
+    //踢出后到的地址
     private String kickoutUrl;
-
-    /**
-     * 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
-     */
+    //踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
     private boolean kickoutAfter = false;
-
-    /**
-     * 同一个帐号最大会话数 默认1
-     */
+    //同一个帐号最大会话数 默认1
     private int maxSession = 1;
 
     private SessionManager sessionManager;
-
-    /**
-     * 缓存
-     */
     private Cache<String, Deque<Serializable>> cache;
 
     @Override
@@ -93,8 +81,7 @@ public class SessionControlFilter extends AccessControlFilter {
         //如果队列里的sessionId数超出最大会话数，开始踢人
         while(deque.size() > maxSession) {
             Serializable kickoutSessionId = null;
-            //如果踢出后者
-            if(kickoutAfter) {
+            if(kickoutAfter) { //如果踢出后者
                 kickoutSessionId = deque.removeFirst();
                 //踢出后再更新下缓存队列
                 cache.put(username, deque);
@@ -129,12 +116,10 @@ public class SessionControlFilter extends AccessControlFilter {
             Map<String, String> resultMap = new HashMap<String, String>();
             //判断是不是Ajax请求
             if ("XMLHttpRequest".equalsIgnoreCase(((HttpServletRequest) request).getHeader("X-Requested-With"))) {
-                ResultStatusCode statusCode = ResultStatusCode.IS_LOGIN;
-                Result result = new Result(statusCode);
-                response.setCharacterEncoding("UTF-8");
-                PrintWriter out = response.getWriter();
-                out.println(JSON.toJSONString(result));
-                response.getWriter();
+                resultMap.put("user_status", "300");
+                resultMap.put("message", "您已经在其他地方登录，请重新登录！");
+                //输出json串
+                out(response, resultMap);
             }else{
                 //重定向
                 WebUtils.issueRedirect(request, response, kickoutUrl);
@@ -142,5 +127,27 @@ public class SessionControlFilter extends AccessControlFilter {
             return false;
         }
         return true;
+    }
+
+    private void out(ServletResponse hresponse, Map<String, String> resultMap)
+            throws IOException {
+        try {
+            hresponse.setCharacterEncoding("UTF-8");
+            PrintWriter out = hresponse.getWriter();
+            out.println(JSON.toJSONString(resultMap));
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            System.err.println("KickoutSessionFilter.class 输出JSON异常，可以忽略。");
+        }
+    }
+
+
+    public Cache<String, Deque<Serializable>> getCache() {
+        return cache;
+    }
+
+    public void setCache(CacheManager cacheManager) {
+        this.cache = cacheManager.getCache("shiro_redis_cache");
     }
 }

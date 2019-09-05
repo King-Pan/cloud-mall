@@ -36,4 +36,10 @@ public class ExceptionController {
         }
         return "Hello World";
     }
+
+    @RequestMapping("/api/v1/hello")
+    @ResponseBody
+    public Object hello(){
+        return "Hello World";
+    }
 }
