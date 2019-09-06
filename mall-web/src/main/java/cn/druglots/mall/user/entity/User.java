@@ -1,9 +1,6 @@
 package cn.druglots.mall.user.entity;
 
-import java.time.LocalDateTime;
 import cn.druglots.mall.common.BaseEntity;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,6 +28,9 @@ public class User extends BaseEntity {
 
     @ApiModelProperty(value = "用户名")
     private String userName;
+
+    @ApiModelProperty(value = "加密盐值")
+    private String salt;
 
     @ApiModelProperty(value = "密码")
     private String password;

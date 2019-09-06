@@ -4,14 +4,20 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
+  http:
+    encoding: #设置编码格式UTF-8
+      charset: utf-8
+      force: true
+      enabled: true
   redis:
     host: 127.0.0.1
     port: 6379
-    password:
 server:
   port: 9100
   servlet:
     context-path: /cloud-mall
+  tomcat:
+    uri-encoding: UTF-8
 debug: true
 mybatis-plus:
   mapper-locations: classpath*:/mappers/**/*.xml
@@ -22,3 +28,8 @@ mybatis-plus:
       update-strategy: not_empty
   check-config-location: true
   executor-type: simple
+shiro:
+  expire: 30 #默认过期时间
+  password:
+    hash-iterations: 10 #默认加密次数,在密码匹配和注册两个地方使用
+    algorithm-name: sha-1 #加密算法

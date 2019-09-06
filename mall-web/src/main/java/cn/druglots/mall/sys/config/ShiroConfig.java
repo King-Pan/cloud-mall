@@ -2,7 +2,7 @@ package cn.druglots.mall.sys.config;
 
 
 import cn.druglots.mall.sys.config.propretise.RedisConfig;
-import cn.druglots.mall.sys.shiro.CredentialsMatcher;
+import cn.druglots.mall.sys.shiro.LoginLimitHashedCredentialsMatcher;
 import cn.druglots.mall.sys.shiro.LoginType;
 import cn.druglots.mall.sys.shiro.SessionManager;
 import cn.druglots.mall.sys.shiro.realm.*;
@@ -115,7 +115,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public AuthorizingRealm authorizingRealm(){
+    public AuthorizingRealm authorizingRealm() {
         AuthorizationRealm authorizationRealm = new AuthorizationRealm();
         authorizationRealm.setName(LoginType.COMMON.getType());
 
@@ -138,10 +138,11 @@ public class ShiroConfig {
 
     /**
      * 手机号验证码登录realm
+     *
      * @return
      */
     @Bean
-    public UserPhoneRealm userPhoneRealm(){
+    public UserPhoneRealm userPhoneRealm() {
         UserPhoneRealm userPhoneRealm = new UserPhoneRealm();
         userPhoneRealm.setName(LoginType.USER_PHONE.getType());
 
@@ -149,10 +150,11 @@ public class ShiroConfig {
     }
 
 
-
     @Bean
-    public cn.druglots.mall.sys.shiro.CredentialsMatcher credentialsMatcher() {
-        return new CredentialsMatcher();
+    public LoginLimitHashedCredentialsMatcher credentialsMatcher() {
+        LoginLimitHashedCredentialsMatcher loginLimitHashedCredentialsMatcher = new LoginLimitHashedCredentialsMatcher();
+        loginLimitHashedCredentialsMatcher.setRedisManager(redisManager());
+        return loginLimitHashedCredentialsMatcher;
     }
 
     /**
@@ -212,7 +214,7 @@ public class ShiroConfig {
         redisManager.setPort(redisConfig.getPort());
         //设置过期时间
         redisManager.setTimeout(redisConfig.getTimeOut());
-        if(StringUtils.isNotBlank(redisConfig.getPassword())){
+        if (StringUtils.isNotBlank(redisConfig.getPassword())) {
             redisManager.setPassword(redisConfig.getPassword());
         }
         return redisManager;
@@ -257,7 +259,7 @@ public class ShiroConfig {
      * @return
      */
     @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
@@ -266,7 +268,6 @@ public class ShiroConfig {
     /**
      * Shiro生命周期处理器
      * 此方法需要用static作为修饰词，否则无法通过@Value()注解的方式获取配置文件的值
-     *
      */
     @Bean
     public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
