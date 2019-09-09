@@ -1,6 +1,5 @@
 package cn.druglots.mall.sys.mapper;
 
-import cn.druglots.mall.sys.entity.Log;
 import cn.druglots.mall.sys.entity.SysLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

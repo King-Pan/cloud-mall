@@ -24,7 +24,12 @@ public enum LoginType {
     /**
      * 第三方登录(微信登录)
      */
-    WECHAT_LOGIN("wechat_login_realm");
+    WECHAT_LOGIN("wechat_login_realm"),
+
+    /**
+     * jwt登录
+     */
+    JWT_LOGIN("jwt_login_real");
 
     private String type;
 

@@ -1,8 +1,8 @@
 package cn.druglots.mall.sys.service.impl;
 
-import cn.druglots.mall.sys.entity.Log;
-import cn.druglots.mall.sys.mapper.LogMapper;
-import cn.druglots.mall.sys.service.ILogService;
+import cn.druglots.mall.sys.entity.SysLog;
+import cn.druglots.mall.sys.mapper.SysLogMapper;
+import cn.druglots.mall.sys.service.ISysLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-09-09
  */
 @Service
-public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements ILogService {
+public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements ISysLogService {
 
 }

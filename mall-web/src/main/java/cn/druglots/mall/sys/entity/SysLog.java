@@ -1,13 +1,14 @@
 package cn.druglots.mall.sys.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
 import cn.druglots.mall.common.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -30,10 +31,10 @@ public class SysLog extends BaseEntity {
     private String moduleName;
 
     @ApiModelProperty(value = "访问时间")
-    private LocalDateTime accessTime;
+    private Date accessTime;
 
     @ApiModelProperty(value = "响应时长")
-    private Integer time;
+    private Long time;
 
     @ApiModelProperty(value = "用户名")
     private String userName;

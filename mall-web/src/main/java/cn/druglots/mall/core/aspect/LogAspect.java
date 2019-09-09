@@ -1,14 +1,15 @@
 package cn.druglots.mall.core.aspect;
 
+import cn.druglots.mall.common.utils.FastJsonUtils;
+import cn.druglots.mall.common.utils.IpUtils;
 import cn.druglots.mall.sys.entity.SysLog;
-import cn.druglots.mall.sys.service.ILogService;
+import cn.druglots.mall.sys.service.ISysLogService;
+import cn.druglots.mall.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -16,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 /**
  * @BelongsProject: cloud-mall
@@ -28,7 +30,7 @@ import java.lang.reflect.Method;
 public class LogAspect {
 
     @Autowired
-    private ILogService logService;
+    private ISysLogService logService;
 
     /**
      * 定义切面
@@ -61,6 +63,7 @@ public class LogAspect {
 
     /**
      * 环绕通知
+     *
      * @param joinPoint
      * @return
      * @throws Throwable
@@ -85,13 +88,13 @@ public class LogAspect {
                 sysLog.setDescription(logAn.description());
             }
 
-            //SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+            User user = (User) SecurityUtils.getSubject().getPrincipal();
 
-            //if (user != null) {
-            //记录用户名
-            //  sysLog.setUserName(user.getUserName());
-            //}
-            sysLog.setBeginDate(new Date());
+            if (user != null) {
+                //记录用户名
+                sysLog.setUserName(user.getUserName());
+            }
+            sysLog.setAccessTime(new Date());
 
             //请求的参数
             Object[] args = joinPoint.getArgs();
@@ -100,14 +103,19 @@ public class LogAspect {
             } catch (Exception e) {
                 log.error("记录日志解析参数失败 : " + e.getMessage());
             }
+
+            //获取请求方法
+            sysLog.setMethodName(method.getName());
             //获取request
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            //获取请求方法
-            sysLog.setMethod(request.getMethod());
-            //获取用户请求地址
-            sysLog.setUrl(request.getRequestURI());
-            //设置IP地址
-            sysLog.setIp(IpUtils.getIpAddr(request));
+            if (request != null) {
+                //获取用户请求地址
+                sysLog.setUrl(request.getRequestURI());
+                //设置IP地址
+                sysLog.setIp(IpUtils.getIpAddr(request));
+            }
+
+
             beginTime = System.currentTimeMillis();
             rvt = joinPoint.proceed();
             //执行时长(毫秒)
@@ -118,7 +126,7 @@ public class LogAspect {
         } catch (Throwable throwable) {
             //记录失败
             sysLog.setResult("访问失败");
-            sysLog.setErrorMessage(throwable.getMessage());
+            sysLog.setErrorMsg(throwable.getMessage());
             sysLog.setStatus("0");
             sysLog.setTime(System.currentTimeMillis() - beginTime);
             throw throwable;
@@ -126,7 +134,7 @@ public class LogAspect {
         if (log.isDebugEnabled()) {
             log.debug("-->: 结束记录日志");
         }
-        logService.saveLog(sysLog);
+        logService.save(sysLog);
         return rvt;
     }
 

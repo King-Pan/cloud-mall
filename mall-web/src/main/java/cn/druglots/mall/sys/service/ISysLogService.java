@@ -1,6 +1,5 @@
 package cn.druglots.mall.sys.service;
 
-import cn.druglots.mall.sys.entity.Log;
 import cn.druglots.mall.sys.entity.SysLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author King-Pan
  * @since 2019-09-09
  */
-public interface ILogService extends IService<SysLog> {
+public interface ISysLogService extends IService<SysLog> {
 
 }
