@@ -1,4 +1,4 @@
-package cn.druglots.mall.sys.shiro;
+package cn.druglots.mall.core.shiro;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro
+ * @BelongsPackage: cn.druglots.mall.common.shiro
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-06 23:01
  * @Description: 登录错误次数限制密码匹配器

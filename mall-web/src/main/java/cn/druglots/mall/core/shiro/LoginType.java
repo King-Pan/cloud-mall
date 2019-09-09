@@ -1,8 +1,8 @@
-package cn.druglots.mall.sys.shiro;
+package cn.druglots.mall.core.shiro;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro
+ * @BelongsPackage: cn.druglots.mall.common.shiro
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-03 23:02
  * @Description: 登录方式枚举类

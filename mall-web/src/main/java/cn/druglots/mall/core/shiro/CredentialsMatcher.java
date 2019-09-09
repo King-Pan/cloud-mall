@@ -1,4 +1,4 @@
-package cn.druglots.mall.sys.shiro;
+package cn.druglots.mall.core.shiro;
 
 import cn.druglots.mall.common.utils.MD5Util;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -8,7 +8,7 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro
+ * @BelongsPackage: cn.druglots.mall.common.shiro
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-04 00:33
  * @Description: 密码匹配器

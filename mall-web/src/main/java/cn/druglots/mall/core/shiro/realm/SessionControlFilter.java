@@ -1,4 +1,4 @@
-package cn.druglots.mall.sys.shiro.realm;
+package cn.druglots.mall.core.shiro.realm;
 
 import cn.druglots.mall.user.entity.User;
 import com.alibaba.fastjson.JSON;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro.realm
+ * @BelongsPackage: cn.druglots.mall.common.shiro.realm
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-04 00:37
  * @Description: 控制登录人数过滤器

@@ -1,4 +1,4 @@
-package cn.druglots.mall.sys.config;
+package cn.druglots.mall.core.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.config
+ * @BelongsPackage: cn.druglots.mall.core.config
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-02 23:15
  * @Description: mybatis-plus配置类

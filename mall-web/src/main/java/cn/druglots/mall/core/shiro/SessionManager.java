@@ -1,4 +1,4 @@
-package cn.druglots.mall.sys.shiro;
+package cn.druglots.mall.core.shiro;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro
+ * @BelongsPackage: cn.druglots.mall.common.shiro
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-04 00:29
  * @Description: shiro会话管理器

@@ -1,6 +1,6 @@
 package cn.druglots.mall.common.utils;
 
-import cn.druglots.mall.sys.config.propretise.ShiroProperties;
+import cn.druglots.mall.core.config.propretise.ShiroProperties;
 import cn.druglots.mall.user.entity.User;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;

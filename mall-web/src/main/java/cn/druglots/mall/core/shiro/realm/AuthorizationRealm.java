@@ -1,4 +1,4 @@
-package cn.druglots.mall.sys.shiro.realm;
+package cn.druglots.mall.core.shiro.realm;
 
 import cn.druglots.mall.user.entity.Permission;
 import cn.druglots.mall.user.entity.Role;
@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro.realm
+ * @BelongsPackage: cn.druglots.mall.common.shiro.realm
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-03 23:35
  * @Description: 统一角色授权控制策略

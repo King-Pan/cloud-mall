@@ -1,9 +1,9 @@
-package cn.druglots.mall.sys.shiro.realm;
+package cn.druglots.mall.core.shiro.realm;
 
 import cn.druglots.mall.common.Constanst;
 import cn.druglots.mall.core.exception.BusinessException;
-import cn.druglots.mall.sys.shiro.LoginType;
-import cn.druglots.mall.sys.shiro.UserToken;
+import cn.druglots.mall.core.shiro.LoginType;
+import cn.druglots.mall.core.shiro.UserToken;
 import cn.druglots.mall.user.entity.User;
 import cn.druglots.mall.user.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro.realm
+ * @BelongsPackage: cn.druglots.mall.common.shiro.realm
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-03 23:05
  * @Description: 用户密码登录realm

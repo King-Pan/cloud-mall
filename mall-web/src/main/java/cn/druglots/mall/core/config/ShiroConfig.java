@@ -1,11 +1,11 @@
-package cn.druglots.mall.sys.config;
+package cn.druglots.mall.core.config;
 
 
-import cn.druglots.mall.sys.config.propretise.RedisConfig;
-import cn.druglots.mall.sys.shiro.LoginLimitHashedCredentialsMatcher;
-import cn.druglots.mall.sys.shiro.LoginType;
-import cn.druglots.mall.sys.shiro.SessionManager;
-import cn.druglots.mall.sys.shiro.realm.*;
+import cn.druglots.mall.core.config.propretise.RedisConfig;
+import cn.druglots.mall.core.shiro.LoginLimitHashedCredentialsMatcher;
+import cn.druglots.mall.core.shiro.LoginType;
+import cn.druglots.mall.core.shiro.SessionManager;
+import cn.druglots.mall.core.shiro.realm.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
 import org.apache.shiro.mgt.SecurityManager;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.config
+ * @BelongsPackage: cn.druglots.mall.core.config
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-03 23:00
  * @Description: shiro配置类
@@ -52,26 +52,22 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         //自定义拦截器
         Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
-//        //限制同一帐号同时在线的个数。
-//        filtersMap.put("kickout", kickoutSessionControlFilter());
+        //限制同一帐号同时在线的个数。
+        filtersMap.put("kickout", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filtersMap);
-
         // 权限控制map.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        // 公共请求
-//        filterChainDefinitionMap.put("/common/**", "anon");
-//        // 静态资源
-//        filterChainDefinitionMap.put("/static/**", "anon");
-//        // 登录方法
-//        // 表示可以匿名访问
-//        filterChainDefinitionMap.put("/admin/*ogin*", "anon");
-//
-//
-//        //此处需要添加一个kickout，上面添加的自定义拦截器才能生效
-//        // 表示需要认证才可以访问
-//        filterChainDefinitionMap.put("/**", "authc");
+        //登录界面，不需要认证
+        filterChainDefinitionMap.put("/login", "anon");
+        //未认证界面，不需要认证
         filterChainDefinitionMap.put("/unauthorized", "anon");
-        filterChainDefinitionMap.put("/**", "authc");
+        // swagger2 begin
+        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+        filterChainDefinitionMap.put("/swagger-resources", "anon");
+        filterChainDefinitionMap.put("/v2/api-docs", "anon");
+        filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        // swagger2 begin
+        filterChainDefinitionMap.put("/**", "authc,kickout");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

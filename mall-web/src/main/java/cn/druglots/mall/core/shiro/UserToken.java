@@ -1,11 +1,11 @@
-package cn.druglots.mall.sys.shiro;
+package cn.druglots.mall.core.shiro;
 
 import lombok.Data;
 import org.apache.shiro.authc.UsernamePasswordToken;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.shiro
+ * @BelongsPackage: cn.druglots.mall.common.shiro
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-03 23:04
  * @Description: 自定义的登录身份UserToken

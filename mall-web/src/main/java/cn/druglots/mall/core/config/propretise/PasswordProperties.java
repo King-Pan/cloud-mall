@@ -1,10 +1,10 @@
-package cn.druglots.mall.sys.config.propretise;
+package cn.druglots.mall.core.config.propretise;
 
 import lombok.Data;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.sys.config.propretise
+ * @BelongsPackage: cn.druglots.mall.core.config.propretise
  * @Author: King-Pan(pwpw1218@gmail.com)
  * @CreateTime: 2019-09-06 23:21
  * @Description: shiro密码相关配置
