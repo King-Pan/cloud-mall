@@ -1,6 +1,11 @@
 package cn.druglots.mall.core.shiro;
 
+import cn.druglots.mall.core.rst.ResultGenerator;
 import cn.druglots.mall.user.entity.User;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -8,9 +13,9 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,20 +27,24 @@ import java.util.Map;
  * @Description: shiro相关控制器
  */
 @Slf4j
+@Api("shiro登录登出控制器")
 @RestController
 public class ShiroController {
 
 
+    @ApiOperation("没有权限页面")
     @RequestMapping("/unauthorized")
     public Object unauthorized() {
         return "没有权限";
     }
 
-
+    @ApiOperation("获取用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="user",name="user",dataType="User",required=true)
+    })
     @PostMapping("/login")
-    public Object login(@RequestBody User user, HttpServletResponse response) {
+    public Object login(@RequestBody User user) {
         String userName = user.getUserName();
-        response.setHeader("auth", "---------xdfedfe");
         Map<String, Object> result = new HashMap<>(10);
         if (userName != null && user.getPassword() != null) {
             UserToken token = new UserToken(LoginType.USER_PASSWORD, userName, user.getPassword());
@@ -69,6 +78,7 @@ public class ShiroController {
 
     @GetMapping("/login")
     public Object loginInfo() {
-        return "need login";
+
+        return ResultGenerator.genFailResult(HttpStatus.UNAUTHORIZED,"未登录");
     }
 }

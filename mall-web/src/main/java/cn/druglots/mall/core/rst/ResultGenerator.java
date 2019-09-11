@@ -1,5 +1,8 @@
 package cn.druglots.mall.core.rst;
 
+import cn.druglots.mall.common.utils.RequestContextHolderUtil;
+import org.springframework.http.HttpStatus;
+
 /**
  * @BelongsProject: cloud-mall
  * @BelongsPackage: cn.druglots.mall.core.rst
@@ -13,6 +16,7 @@ public class ResultGenerator {
 
     /**
      * 生成默认的结果
+     *
      * @return Result结果对象
      */
     public static Result genSuccessResult() {
@@ -42,5 +46,22 @@ public class ResultGenerator {
                 .setCode(code)
                 .setSuccess(false)
                 .setMessage(message);
+    }
+
+    public static Result genFailResult(HttpStatus httpStatus) {
+        RequestContextHolderUtil.getResponse().setStatus(httpStatus.value());
+        return new Result()
+                .setCode(httpStatus.value())
+                .setSuccess(false)
+                .setMessage(httpStatus.getReasonPhrase());
+    }
+
+
+    public static Result genFailResult(HttpStatus httpStatus,String msg) {
+        RequestContextHolderUtil.getResponse().setStatus(httpStatus.value());
+        return new Result()
+                .setCode(httpStatus.value())
+                .setSuccess(false)
+                .setMessage(msg);
     }
 }

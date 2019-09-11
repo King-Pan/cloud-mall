@@ -53,7 +53,7 @@ public class JWTShiroRealm extends AuthorizingRealm {
         log.info("jwt登录用户名:{}",username);
         // 从数据库获取对应用户名密码的用户
         User user = userService.findByUserName(username);
-        if(user != null){
+        if(null != user){
             if (!Constanst.OPEN_STATUS.equals(user.getStatus())) {
                 throw new BusinessException("用户被禁用");
             }

@@ -1,8 +1,5 @@
 package cn.druglots.mall.core.rst;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-
 /**
  * @BelongsProject: cloud-mall
  * @BelongsPackage: cn.druglots.mall.core.rst
@@ -34,6 +31,11 @@ public class Result {
 
     public Result setCode(ResultCode resultCode) {
         this.code = resultCode.code();
+        return this;
+    }
+
+    public Result setCode(int code) {
+        this.code = code;
         return this;
     }
 

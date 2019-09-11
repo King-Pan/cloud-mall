@@ -22,6 +22,18 @@ public class UserToken extends UsernamePasswordToken {
      */
     private String code;
 
+    /**
+     * jwt登录的token
+     */
+    private String token;
+
+
+    /**
+     *
+     * @param loginType
+     * @param username
+     * @param password
+     */
     public UserToken(LoginType loginType, final String username, final String password) {
         super(username, password);
         this.loginType = loginType;

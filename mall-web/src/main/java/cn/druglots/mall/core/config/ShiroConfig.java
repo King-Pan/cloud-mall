@@ -56,17 +56,25 @@ public class ShiroConfig {
         filtersMap.put("kickout", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filtersMap);
         // 权限控制map.
+        // 拦截器路径，坑一，部分路径无法进行拦截，时有时无；因为同学使用的是hashmap, 无序的，应该改为LinkedHashMap
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         //登录界面，不需要认证
         filterChainDefinitionMap.put("/login", "anon");
+
+        //退出过滤器
+        filterChainDefinitionMap.put("/logout", "logout");
         //未认证界面，不需要认证
         filterChainDefinitionMap.put("/unauthorized", "anon");
-        // swagger2 begin
+
+
+        // SWAGGER2过滤【START】
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/swagger-resources", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");
         filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
-        // swagger2 begin
+        // SWAGGER2过滤【END】
+
         filterChainDefinitionMap.put("/**", "authc,kickout");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -87,14 +95,17 @@ public class ShiroConfig {
         realms.add(userPasswordRealm());
         // 用户手机号验证码登录realm
         realms.add(userPhoneRealm());
-        // 微信登录realm
-        //realms.add(wechatLoginRealm());
 
-        securityManager.setRealms(realms);
+
+        // 自定义session管理 使用redis
+        // 如果不是前后端分离，则不必设置下面的sessionManager
+        securityManager.setSessionManager(sessionManager());
+
         // 自定义缓存实现 使用redis
         securityManager.setCacheManager(cacheManager());
-        // 自定义session管理 使用redis
-        securityManager.setSessionManager(sessionManager());
+
+        //设置realm（推荐放到最后，不然某些情况会不生效）
+        securityManager.setRealms(realms);
         return securityManager;
     }
 
