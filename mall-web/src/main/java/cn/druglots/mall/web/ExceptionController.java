@@ -16,15 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ExceptionController {
 
 
-    @RequestMapping("/api/v1/test_ext")
-    public Object index(){
-        try {
-            int a = 1/0;
-        }catch (Exception e){
-            throw new BusinessException("401",e.getMessage());
-        }
-        return "Hello World";
-    }
 
     @RequestMapping("/api/v1/test_ext2")
     @ResponseBody
@@ -42,4 +33,17 @@ public class ExceptionController {
     public Object hello(){
         return "Hello World";
     }
+
+
+    @RequestMapping("/")
+    @ResponseBody
+    public Object index(){
+        return "index";
+    }
+
+//    @RequestMapping("/csrf")
+//    @ResponseBody
+//    public Object csrf(){
+//        return "index";
+//    }
 }

@@ -1,7 +1,6 @@
 package cn.druglots.mall.core.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -17,7 +16,7 @@ import java.util.List;
  * @CreateTime: 2019-09-09 16:12
  * @Description: CORS跨域配置,使用spring web模块自带的corsFilter过滤器
  */
-@Configuration
+//@Configuration
 public class CorsConfig implements WebMvcConfigurer{
 
     /**
