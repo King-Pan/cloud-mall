@@ -33,3 +33,13 @@ shiro:
   password:
     hash-iterations: 10 #默认加密次数,在密码匹配和注册两个地方使用
     algorithm-name: sha-1 #加密算法
+aliyun:
+  sms:
+    accessKeyId: LTAIsU4u7y975Kq7
+    accessKeySecret: 8zajvrMGXtXmhU05iE7ZXblf9c8EcT
+    signName: 345
+  oss:
+    accessKeyId: T9Kavi2RuoNLW6vA  #个人oss存储
+    accessKeySecret: dhLbgKXxkUOsHK6iTfxcEKg6Xa9e1Y
+    endPoint: http://oss-cn-hangzhou.aliyuncs.com
+
