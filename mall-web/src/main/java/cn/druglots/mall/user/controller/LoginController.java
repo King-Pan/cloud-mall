@@ -1,5 +1,6 @@
 package cn.druglots.mall.user.controller;
 
+import cn.druglots.mall.core.aspect.Log;
 import cn.druglots.mall.core.rst.ResultGenerator;
 import cn.druglots.mall.core.shiro.LoginType;
 import cn.druglots.mall.core.shiro.UserToken;
@@ -40,8 +41,10 @@ public class LoginController {
         return ResultGenerator.genFailResult(HttpStatus.UNAUTHORIZED, "未登录");
     }
 
+
     @ApiOperation("用户登录")
     @PostMapping(value = "/login")
+    @Log(module = "用户模块",description = "用户登录处理方法",fp = "用户登录")
     public Object login(@RequestBody  @ApiParam(name="用户登录信息",value="用户登录信息-json",required=true) UserLoginVo userLoginVo) {
         String userName = userLoginVo.getUserName();
         Map<String, Object> result = new HashMap<>(10);
