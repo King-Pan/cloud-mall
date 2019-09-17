@@ -21,13 +21,12 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 /**
- * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.common.aspect
- * @Author: king-pan
- * @CreateTime: 2019-09-09 11:11
- * @Description: 自定义日志记录器-切面
+ * @author : king-pan
+ * @date : 2019-09-09 11:11
+ * @description: 自定义日志记录器-切面
  */
 @Slf4j
+@Aspect
 @Component
 public class LogAspect {
 
@@ -57,6 +56,7 @@ public class LogAspect {
         }
         try {
             //记录日志
+            log.info("AfterReturning: 记录日志");
         } catch (Exception e) {
             log.error("记录日志出错", e);
         }
@@ -66,9 +66,9 @@ public class LogAspect {
     /**
      * 环绕通知
      *
-     * @param joinPoint
-     * @return
-     * @throws Throwable
+     * @param joinPoint joinPoint
+     * @return 方法返回值
+     * @throws Throwable 跑出异常
      */
     @Around(value = "serviceAspect()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
