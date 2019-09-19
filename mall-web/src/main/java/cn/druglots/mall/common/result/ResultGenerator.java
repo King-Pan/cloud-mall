@@ -39,6 +39,13 @@ public class ResultGenerator {
         return successResult().setData(data);
     }
 
+
+    public static Result failResult() {
+        return new Result()
+                .setCode(HttpStatus.OK.value())
+                .setSuccess(false);
+    }
+
     public static Result failResult(String message) {
         return new Result()
                 .setCode(HttpStatus.OK.value())

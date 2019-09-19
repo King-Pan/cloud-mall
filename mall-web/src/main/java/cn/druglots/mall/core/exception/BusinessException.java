@@ -13,28 +13,24 @@ import lombok.Data;
 @Data
 public class BusinessException extends RuntimeException {
 
-    private String code;
+    private ResultCode resultCode = ResultCode.INTERNAL_SERVER_ERROR;
+
     private String msg;
 
-    private ResultCode resultCode;
-
-
-    public BusinessException(String msg){
-        this.code = "500";
+    public BusinessException(String msg) {
         this.msg = msg;
     }
 
-    public BusinessException(ResultCode resultCode){
+    public BusinessException(ResultCode resultCode) {
         this.resultCode = resultCode;
     }
 
-    public BusinessException(Exception e){
-        this.code = "500";
-        this.msg = e.getMessage();
+    public BusinessException(ResultCode resultCode, String msg) {
+        this.resultCode = resultCode;
+        this.msg = msg;
     }
 
-    public BusinessException(String code, String msg){
-        this.code = code;
-        this.msg = msg;
+    public BusinessException(Exception e) {
+        this.msg = e.getMessage();
     }
 }

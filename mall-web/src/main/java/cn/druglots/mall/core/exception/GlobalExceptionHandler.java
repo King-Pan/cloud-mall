@@ -114,8 +114,8 @@ public class GlobalExceptionHandler {
             return getErrorResult(request, e);
         }
         ModelAndView view = new ModelAndView("global_error");
-        view.addObject("code", e.getCode());
-        view.addObject("msg", e.getMsg());
+        view.addObject("code", e.getResultCode().code());
+        view.addObject("msg", e.getResultCode().msg());
         view.addObject("url", request.getRequestURL());
         view.addObject("stackTrace", e.getStackTrace());
         return view;
@@ -123,7 +123,7 @@ public class GlobalExceptionHandler {
 
     private Object getErrorResult(HttpServletRequest request, BusinessException e) {
         Map<String, Object> result = new HashMap<>(3);
-        result.put("code", e.getCode());
+        result.put("code", e.getResultCode().code());
         result.put("msg", e.getMsg());
         result.put("url", request.getRequestURL());
         return ResultGenerator.failResult(e.getResultCode()).setData(result);
