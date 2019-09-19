@@ -18,12 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.core.exception
- * @Author: king-pan
- * @CreateTime: 2019-08-28 10:26
- * @Description: 全局异常处理器, 注意捕获异常类型不能重复，不然会报异常:
- * Ambiguous @ExceptionHandler method mapped for
+ *
+ * @author King-Pan
  */
 @Slf4j
 @RestControllerAdvice
@@ -39,8 +35,7 @@ public class GlobalExceptionHandler {
         log.error("==============异常开始=============");
         //如果是shiro无权操作，因为shiro 在操作auno等一部分不进行转发至无权限url
         if (ex instanceof UnauthorizedException) {
-            ModelAndView mv = new ModelAndView("manage/unauth/index");
-            return mv;
+            return new ModelAndView("unauthorized");
         }
         ex.printStackTrace();
         log.error("GlobalExceptionHandler异常处理", ex);
