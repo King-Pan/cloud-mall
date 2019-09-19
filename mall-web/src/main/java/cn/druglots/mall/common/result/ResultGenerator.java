@@ -1,11 +1,11 @@
-package cn.druglots.mall.core.rst;
+package cn.druglots.mall.common.result;
 
 import cn.druglots.mall.common.utils.RequestContextHolderUtil;
 import org.springframework.http.HttpStatus;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.core.rst
+ * @BelongsPackage: cn.druglots.mall.core.result
  * @Author: king-pan
  * @CreateTime: 2019-08-28 10:12
  * @Description: 结果生成器
@@ -19,36 +19,45 @@ public class ResultGenerator {
      *
      * @return Result结果对象
      */
-    public static Result genSuccessResult() {
+    public static Result successResult() {
         return new Result()
-                .setCode(ResultCode.SUCCESS)
+                .setCode(HttpStatus.OK.value())
                 .setSuccess(true)
-                .setMessage(DEFAULT_SUCCESS_MESSAGE);
+                .setMessage(HttpStatus.OK.getReasonPhrase());
     }
 
-    public static Result genSuccessResult(Object data) {
-        return new Result()
-                .setCode(ResultCode.SUCCESS)
-                .setSuccess(true)
-                .setMessage(DEFAULT_SUCCESS_MESSAGE)
-                .setData(data);
+    /**
+     * 生成默认的结果
+     *
+     * @return Result结果对象
+     */
+    public static Result successResult(String msg) {
+        return successResult().setMessage(msg);
     }
 
-    public static Result genFailResult(String message) {
+    public static Result successResult(Object data) {
+        return successResult().setData(data);
+    }
+
+    public static Result failResult(String message) {
         return new Result()
-                .setCode(ResultCode.FAIL)
+                .setCode(HttpStatus.OK.value())
                 .setSuccess(false)
                 .setMessage(message);
     }
 
-    public static Result genFailResult(ResultCode code, String message) {
+    /**
+     * 自定义状态必须通过ResultCode调用
+     * @param code
+     * @return
+     */
+    public static Result failResult(ResultCode code) {
         return new Result()
                 .setCode(code)
-                .setSuccess(false)
-                .setMessage(message);
+                .setSuccess(false);
     }
 
-    public static Result genFailResult(HttpStatus httpStatus) {
+    public static Result failResult(HttpStatus httpStatus) {
         RequestContextHolderUtil.getResponse().setStatus(httpStatus.value());
         return new Result()
                 .setCode(httpStatus.value())
@@ -57,7 +66,7 @@ public class ResultGenerator {
     }
 
 
-    public static Result genFailResult(HttpStatus httpStatus,String msg) {
+    public static Result failResult(HttpStatus httpStatus, String msg) {
         RequestContextHolderUtil.getResponse().setStatus(httpStatus.value());
         return new Result()
                 .setCode(httpStatus.value())

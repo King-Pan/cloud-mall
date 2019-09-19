@@ -1,5 +1,6 @@
 package cn.druglots.mall.core.exception;
 
+import cn.druglots.mall.common.result.ResultCode;
 import lombok.Data;
 
 /**
@@ -15,10 +16,16 @@ public class BusinessException extends RuntimeException {
     private String code;
     private String msg;
 
+    private ResultCode resultCode;
+
 
     public BusinessException(String msg){
         this.code = "500";
         this.msg = msg;
+    }
+
+    public BusinessException(ResultCode resultCode){
+        this.resultCode = resultCode;
     }
 
     public BusinessException(Exception e){

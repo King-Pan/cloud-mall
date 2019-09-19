@@ -1,8 +1,12 @@
 package cn.druglots.mall.core.exception;
 
+import cn.druglots.mall.common.result.ResultCode;
+import cn.druglots.mall.common.result.ResultGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +25,7 @@ import java.util.Map;
  * @Description: 全局异常处理器, 注意捕获异常类型不能重复，不然会报异常:
  * Ambiguous @ExceptionHandler method mapped for
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -31,14 +36,15 @@ public class GlobalExceptionHandler {
     public ModelAndView resolveException(HttpServletRequest request,
                                          HttpServletResponse response, Object handler, Exception ex) {
         // TODO Auto-generated method stub
-        System.out.println("==============异常开始=============");
+        log.error("==============异常开始=============");
         //如果是shiro无权操作，因为shiro 在操作auno等一部分不进行转发至无权限url
-        if(ex instanceof UnauthorizedException){
+        if (ex instanceof UnauthorizedException) {
             ModelAndView mv = new ModelAndView("manage/unauth/index");
             return mv;
         }
         ex.printStackTrace();
-        System.out.println("==============异常结束=============");
+        log.error("GlobalExceptionHandler异常处理", ex);
+        log.error("==============异常结束=============");
         ModelAndView mv = new ModelAndView("error");
         mv.addObject("exception", ex.toString().replaceAll("\n", "<br/>"));
         return mv;
@@ -86,6 +92,7 @@ public class GlobalExceptionHandler {
      * @param request
      * @return
      */
+    @ResponseBody
     @ExceptionHandler(value = BusinessException.class)
     public Object viewErrorHandler(HttpServletRequest request, BusinessException e) {
         //使用HttpServletRequest中的header检测请求是否为ajax, 如果是ajax则返回json, 如果为非ajax则返回view(即ModelAndView)
@@ -114,20 +121,20 @@ public class GlobalExceptionHandler {
         return view;
     }
 
-    private Map<String, Object> getErrorResult(HttpServletRequest request, BusinessException e) {
+    private Object getErrorResult(HttpServletRequest request, BusinessException e) {
         Map<String, Object> result = new HashMap<>(3);
         result.put("code", e.getCode());
         result.put("msg", e.getMsg());
         result.put("url", request.getRequestURL());
-        return result;
+        return ResultGenerator.failResult(e.getResultCode()).setData(result);
     }
 
-    private Map<String, Object> getErrorResult(HttpServletRequest request, Exception e) {
+    private Object getErrorResult(HttpServletRequest request, Exception e) {
         Map<String, Object> result = new HashMap<>(3);
         result.put("code", 500);
         result.put("msg", e.getMessage());
         result.put("url", request.getRequestURL());
-        return result;
+        return ResultGenerator.failResult(e.getMessage()).setData(result);
     }
 
     /**
@@ -143,14 +150,27 @@ public class GlobalExceptionHandler {
     }
 
 
+    /**
+     * 未授权错误处理
+     *
+     * @param ex
+     * @return
+     */
     @ResponseBody
     @ExceptionHandler(UnauthorizedException.class)
-    public String handleShiroException(Exception ex) {
-        return "无权限";
+    public Object handleShiroException(Exception ex) {
+        return ResultGenerator.failResult(HttpStatus.UNAUTHORIZED);
     }
+
+    /**
+     * 授权失败处理
+     *
+     * @param ex
+     * @return
+     */
     @ResponseBody
     @ExceptionHandler(AuthorizationException.class)
-    public String AuthorizationException(Exception ex) {
-        return "权限认证失败";
+    public Object AuthorizationException(Exception ex) {
+        return ResultGenerator.failResult(ResultCode.AUTHORIZED_FAIL).setMessage(ex.getMessage());
     }
 }

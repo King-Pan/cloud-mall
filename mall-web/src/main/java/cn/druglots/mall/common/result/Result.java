@@ -1,8 +1,8 @@
-package cn.druglots.mall.core.rst;
+package cn.druglots.mall.common.result;
 
 /**
  * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.core.rst
+ * @BelongsPackage: cn.druglots.mall.core.result
  * @Author: king-pan
  * @CreateTime: 2019-08-28 10:10
  * @Description: 返回结果
@@ -31,8 +31,10 @@ public class Result {
 
     public Result setCode(ResultCode resultCode) {
         this.code = resultCode.code();
+        this.message = resultCode.msg();
         return this;
     }
+
 
     public Result setCode(int code) {
         this.code = code;

@@ -44,7 +44,7 @@ public class AreaTest {
             System.out.println(pro);
 
 
-            AreaInfo areaInfo = FastJsonUtils.getJsonToBean(sb.toString(),AreaInfo.class);
+            AreaInfo areaInfo = FastJsonUtils.getJsonToBean(sb.toString(), AreaInfo.class);
             System.out.println(areaInfo.getAdcode());
             System.out.println(areaInfo.getName());
             System.out.println(areaInfo.getLevel());
@@ -56,6 +56,11 @@ public class AreaTest {
             System.out.println(country.getCenter());
             System.out.println(country.getCitycode());
             System.out.println(l1.size());
+            List<AreaInfo> prods = country.getDistricts();
+            for (AreaInfo prod : prods) {
+                System.out.println(prod);
+            }
+            System.out.println(prods.size());
         } catch (IOException e) {
             e.printStackTrace();
         }

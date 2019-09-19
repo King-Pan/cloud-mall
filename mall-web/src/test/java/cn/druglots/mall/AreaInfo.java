@@ -14,10 +14,12 @@ import java.util.List;
  */
 @Data
 public class AreaInfo {
-    private String  citycode;
-    private String  adcode;
-    private String  name;
-    private String  center;
-    private String  level;
+    private String citycode;
+    private String adcode;
+    private String name;
+    private String center;
+    private String level;
     private List<AreaInfo> districts = new ArrayList<>();
+
+
 }

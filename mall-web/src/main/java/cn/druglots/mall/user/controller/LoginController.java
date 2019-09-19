@@ -1,11 +1,15 @@
 package cn.druglots.mall.user.controller;
 
+import cn.druglots.mall.common.result.Result;
+import cn.druglots.mall.common.result.ResultCode;
+import cn.druglots.mall.common.result.ResultGenerator;
 import cn.druglots.mall.core.aspect.Log;
-import cn.druglots.mall.core.rst.ResultGenerator;
 import cn.druglots.mall.core.shiro.LoginType;
 import cn.druglots.mall.core.shiro.UserToken;
 import cn.druglots.mall.user.entity.UserLoginVo;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -18,9 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @BelongsProject: cloud-mall
@@ -38,7 +39,7 @@ public class LoginController {
     @ApiOperation("未授权")
     @GetMapping("/unauthorized")
     public Object unauthorized() {
-        return ResultGenerator.genFailResult(HttpStatus.UNAUTHORIZED, "未登录");
+        return ResultGenerator.failResult(HttpStatus.UNAUTHORIZED, "未登录");
     }
 
 
@@ -47,7 +48,7 @@ public class LoginController {
     @Log(module = "用户模块",description = "用户登录处理方法",fp = "用户登录")
     public Object login(@RequestBody  @ApiParam(name="用户登录信息",value="用户登录信息-json",required=true) UserLoginVo userLoginVo) {
         String userName = userLoginVo.getUserName();
-        Map<String, Object> result = new HashMap<>(10);
+        Result result = null;
         if (userName != null && userLoginVo.getPassword() != null) {
             LoginType loginType = null;
             if (LoginType.USER_PASSWORD.getType().equals(userLoginVo.getType())) {
@@ -67,21 +68,24 @@ public class LoginController {
                 //验证是否登录成功
                 if (currentUser.isAuthenticated()) {
                     log.info("用户[" + userName + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
-                    result.put("code", 200);
-                    result.put("msg", "登录失败");
+                    result = ResultGenerator.successResult("登录成功");
                 } else {
                     token.clear();
                     log.info("用户[{}]登录认证失败,重新登陆", userName);
-                    return "redirect:/login";
+                    result = ResultGenerator.failResult(ResultCode.USER_PASSWORD_ERROR);
                 }
             } catch (UnknownAccountException uae) {
                 log.warn("对用户[{}]进行登录验证..验证失败-username wasn't in the system", userName);
+                result = ResultGenerator.failResult(ResultCode.USER_PASSWORD_ERROR);
             } catch (IncorrectCredentialsException ice) {
                 log.warn("对用户[{}]进行登录验证..验证失败-password didn't match", userName);
+                result = ResultGenerator.failResult(ResultCode.USER_PASSWORD_ERROR);
             } catch (LockedAccountException lae) {
                 log.warn("对用户[{}]进行登录验证..验证失败-account is locked in the system", userName);
+                result = ResultGenerator.failResult(ResultCode.ACCOUNT_LOCKED);
             } catch (AuthenticationException ae) {
                 log.error(ae.getMessage());
+                result = ResultGenerator.failResult(HttpStatus.UNAUTHORIZED);
             }
         }
 
@@ -90,6 +94,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public Object loginInfo() {
-        return ResultGenerator.genFailResult(HttpStatus.UNAUTHORIZED, "未登录");
+        return ResultGenerator.failResult(HttpStatus.UNAUTHORIZED, "未登录");
     }
 }
