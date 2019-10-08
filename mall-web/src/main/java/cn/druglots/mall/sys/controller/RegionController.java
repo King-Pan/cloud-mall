@@ -2,10 +2,10 @@ package cn.druglots.mall.sys.controller;
 
 
 import cn.druglots.mall.common.result.Result;
-import cn.druglots.mall.sys.dto.RegionDto;
 import cn.druglots.mall.sys.service.IRegionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,8 @@ public class RegionController {
 
     @ApiOperation(value = "查询区域信息")
     @GetMapping("/")
-    public Result getRegionList(RegionDto regionDto){
-        return regionService.getRegionList(regionDto);
+
+    public Result getRegionList(@ApiParam("区域编码") String cityCode) {
+        return regionService.getRegionList();
     }
 }

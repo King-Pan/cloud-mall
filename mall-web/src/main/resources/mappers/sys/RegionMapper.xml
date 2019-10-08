@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.druglots.mall.sys.mapper.RegionMapper">
+    <resultMap id="regionMap" type="cn.druglots.mall.sys.dto.RegionVO">
+        <result column="value" property="value" javaType="java.lang.String"/>
+        <result column="label" property="label" javaType="java.lang.String"/>
+        <collection column="value" property="children" ofType="cn.druglots.mall.sys.dto.RegionVO"
+                    javaType="java.util.ArrayList" select="getRegionListById"/>
+    </resultMap>
 
+    <select id="getRegionList" resultMap="regionMap">
+        select citycode as value, name as label
+        from sys_region
+        where level = 1
+    </select>
+    <select id="getRegionListById" resultMap="regionMap" parameterType="java.lang.String">
+        select citycode as value, name as label
+        from sys_region
+        where parent_id = #{value}
+    </select>
 </mapper>

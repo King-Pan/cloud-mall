@@ -14,11 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.common.shiro
- * @Author: King-Pan(pwpw1218@gmail.com)
- * @CreateTime: 2019-09-06 23:01
- * @Description: 登录错误次数限制密码匹配器
+ * @author King-Pan(pwpw1218@gmail.com)
+ * @date 2019-09-06 23:01
+ * @Description 登录错误次数限制密码匹配器
  */
 @Data
 @Slf4j
@@ -40,16 +38,6 @@ public class LoginLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
-        System.out.println(token);
-        System.out.println(token.getCredentials());
-        System.out.println(token.getPrincipal());
-        System.out.println(token.getClass().getSimpleName());
-        System.out.println(info);
-        System.out.println(info.getCredentials());
-        System.out.println(info.getPrincipals());
-        System.out.println(info.getClass().getSimpleName());
-
-
         String username = (String) token.getPrincipal();
         //获取缓存对象
         RedisCacheManager redisCacheManager = new RedisCacheManager();

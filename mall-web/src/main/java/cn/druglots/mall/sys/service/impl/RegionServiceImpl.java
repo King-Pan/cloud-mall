@@ -2,12 +2,11 @@ package cn.druglots.mall.sys.service.impl;
 
 import cn.druglots.mall.common.result.Result;
 import cn.druglots.mall.common.result.ResultGenerator;
-import cn.druglots.mall.sys.dto.RegionDto;
 import cn.druglots.mall.sys.entity.Region;
 import cn.druglots.mall.sys.mapper.RegionMapper;
 import cn.druglots.mall.sys.service.IRegionService;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,14 +20,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegionServiceImpl extends ServiceImpl<RegionMapper, Region> implements IRegionService {
 
+
     @Override
-    public Result getRegionList(RegionDto regionDto) {
+    @Cacheable(value = "getRegionList", key = "'allRegion'")
+    public Result getRegionList() {
         Result result = ResultGenerator.successResult();
-        if(regionDto.getProvFlag()){
-            result.setData(baseMapper.selectList(Wrappers.<Region>lambdaQuery().eq(Region::getLevel,1)));
-        }else{
-            result.setData(baseMapper.selectList(Wrappers.<Region>lambdaQuery().eq(Region::getParentId,regionDto.getCityCode())));
-        }
+        result.setData(this.baseMapper.getRegionList());
         return result;
     }
 }

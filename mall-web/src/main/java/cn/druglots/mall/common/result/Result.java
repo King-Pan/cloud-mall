@@ -1,13 +1,15 @@
 package cn.druglots.mall.common.result;
 
+import lombok.ToString;
+
+import java.io.Serializable;
+
 /**
- * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.core.result
- * @Author: king-pan
- * @CreateTime: 2019-08-28 10:10
- * @Description: 返回结果
+ * @author king-pan
+ * @date 2019/10/8 22:28
  */
-public class Result {
+@ToString
+public class Result<T extends Serializable> implements Serializable {
 
     /**
      * 状态响应码
@@ -27,7 +29,7 @@ public class Result {
     /**
      * 响应数据
      */
-    private Object data;
+    private T data;
 
     public Result setCode(ResultCode resultCode) {
         this.code = resultCode.code();
@@ -67,8 +69,9 @@ public class Result {
         return data;
     }
 
-    public Result setData(Object data) {
+    public Result setData(T data) {
         this.data = data;
         return this;
     }
+
 }

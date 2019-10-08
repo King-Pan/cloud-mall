@@ -1,7 +1,7 @@
 package cn.druglots.mall.core.config;
 
 
-import cn.druglots.mall.core.config.propretise.RedisConfig;
+import cn.druglots.mall.core.config.propretise.RedisConfigInfo;
 import cn.druglots.mall.core.shiro.LoginLimitHashedCredentialsMatcher;
 import cn.druglots.mall.core.shiro.LoginType;
 import cn.druglots.mall.core.shiro.SessionManager;
@@ -31,17 +31,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.core.config
- * @Author: King-Pan(pwpw1218@gmail.com)
- * @CreateTime: 2019-09-03 23:00
+ * @author: King-Pan(pwpw1218@gmail.com)
+ * @date: 2019-09-03 23:00
  * @Description: shiro配置类
  */
 @Configuration
 public class ShiroConfig {
 
     @Autowired
-    private RedisConfig redisConfig;
+    private RedisConfigInfo redisConfig;
 
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
@@ -51,13 +49,13 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         //自定义拦截器
-        Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
+        Map<String, Filter> filtersMap = new LinkedHashMap();
         //限制同一帐号同时在线的个数。
         filtersMap.put("kickout", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filtersMap);
         // 权限控制map.
         // 拦截器路径，坑一，部分路径无法进行拦截，时有时无；因为同学使用的是hashmap, 无序的，应该改为LinkedHashMap
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap();
         //登录界面，不需要认证
         filterChainDefinitionMap.put("/login", "anon");
 
@@ -74,10 +72,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/swagger-resources/configuration/ui", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");
         filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
-        filterChainDefinitionMap.put("/sys/region/**","anon");
+        filterChainDefinitionMap.put("/sys/region/**", "anon");
         // SWAGGER2过滤【END】
         filterChainDefinitionMap.put("/**", "authc");
-        //filterChainDefinitionMap.put("/**", "authc,kickout");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -219,8 +216,7 @@ public class ShiroConfig {
      */
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
-        redisManager.setHost(redisConfig.getHost() +":"+redisConfig.getPort());
-        //redisManager.setPort(redisConfig.getPort());
+        redisManager.setHost(redisConfig.getHost() + ":" + redisConfig.getPort());
         //设置过期时间
         redisManager.setTimeout(redisConfig.getTimeOut());
         if (StringUtils.isNotBlank(redisConfig.getPassword())) {

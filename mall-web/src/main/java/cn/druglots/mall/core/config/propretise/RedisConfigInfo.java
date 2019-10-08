@@ -5,16 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * @BelongsProject: cloud-mall
- * @BelongsPackage: cn.druglots.mall.core.config.propretise
- * @Author: King-Pan(pwpw1218@gmail.com)
- * @CreateTime: 2019-09-04 00:52
- * @Description: redis配置信息
+ * @author king-pan
+ * @date 2019/10/8 22:28
  */
 @Data
 @Component
 @ConfigurationProperties(prefix = "spring.redis")
-public class RedisConfig {
+public class RedisConfigInfo {
 
     /**
      * ip
