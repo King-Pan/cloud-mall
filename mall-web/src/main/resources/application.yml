@@ -42,7 +42,7 @@ aliyun:
     accessKeySecret: 8zajvrMGXtXmhU05iE7ZXblf9c8EcT
     signName: 345
   oss:
-    accessKeyId: T9Kavi2RuoNLW6vA  #个人oss存储
-    accessKeySecret: dhLbgKXxkUOsHK6iTfxcEKg6Xa9e1Y
+    accessKeyId: T9Kavi2RuoNLW6223vA  #个人oss存储
+    accessKeySecret: dhLbgKXxkUOsHK6iTf23xcEKg6Xa9e1Y
     endPoint: http://oss-cn-hangzhou.aliyuncs.com
 
