@@ -38,11 +38,11 @@ shiro:
     algorithm-name: sha-1 #加密算法
 aliyun:
   sms:
-    accessKeyId: LTAIsU4u7y975Kq7
-    accessKeySecret: 8zajvrMGXtXmhU05iE7ZXblf9c8EcT
+    accessKeyId: xxx
+    accessKeySecret: xxxx
     signName: 345
   oss:
-    accessKeyId: T9Kavi2RuoNLW6223vA  #个人oss存储
-    accessKeySecret: dhLbgKXxkUOsHK6iTf23xcEKg6Xa9e1Y
+    accessKeyId: xxx  #个人oss存储
+    accessKeySecret: xxxx
     endPoint: http://oss-cn-hangzhou.aliyuncs.com
 
