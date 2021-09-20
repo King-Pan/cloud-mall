@@ -13,7 +13,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.current.version>0.0.1-SNAPSHOT</project.current.version>
-        <shiro.version>1.4.1</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
         <shiro-redis.version>3.2.3</shiro-redis.version>
     </properties>
 
